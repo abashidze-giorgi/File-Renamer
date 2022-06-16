@@ -67,6 +67,8 @@ namespace File_Renamer
             {
                 nameNum = 1;
 
+                selectedExt.Clear();
+
                 numerateEnabled = false;
                 extEnabled = false;
                 addSymbolEnabled = false;
@@ -252,32 +254,39 @@ namespace File_Renamer
         private void GetFiles()
         {
             string[] GetFiles = Directory.GetFiles(folderPath);
-
-            foreach (string file in GetFiles)
+            string file;
+            foreach (string i in GetFiles)
             {
-                string tempFile = Path.GetFileName(file);
-
-                string[] splittedFileName = tempFile.Split('.');
-
-                tempName = splittedFileName[0].ToString();
-                string newExt = splittedFileName[1].ToString();
-                if(extEnabled == false)
-                {
-                    FormatName(file, newExt);
-                }else
-                {
-                    foreach(var i in selectedExt)
-                    {
-                        if (i.ToString() == newExt)
-                        {
-                            FormatName(file, newExt);
-                            break;
-                        }
-                    }
-                }
+                file = i;
+                TempFile(file);
             }
 
             FillForm();
+        }
+
+        private void TempFile(string file)
+        {
+            string tempFile = Path.GetFileName(file);
+
+            string[] splittedFileName = tempFile.Split('.');
+
+            tempName = splittedFileName[0].ToString();
+            string newExt = splittedFileName[1].ToString();
+            if (extEnabled == false)
+            {
+                FormatName(file, newExt);
+            }
+            else
+            {
+                foreach (var i in selectedExt)
+                {
+                    if (i.ToString() == newExt)
+                    {
+                        FormatName(file, newExt);
+                        break;
+                    }
+                }
+            }
         }
 
         private void FormatName(string file, string ext)
@@ -298,12 +307,12 @@ namespace File_Renamer
                 }
                 else
                 {
-
+                    TempFile(file);
                 }
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show(ex.ToString());
             }
         }
 
