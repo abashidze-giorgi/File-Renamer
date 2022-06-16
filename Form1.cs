@@ -290,7 +290,21 @@ namespace File_Renamer
 
         private void RenameFile(string file)
         {
-            System.IO.File.Move(file, tempName);
+            try
+            {
+                if (!File.Exists(tempName))
+                {
+                    System.IO.File.Move(file, tempName);
+                }
+                else
+                {
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private void CheckIfSymbolAddEnabled()
@@ -315,7 +329,14 @@ namespace File_Renamer
         {
             if (chk_numbers.Checked)
             {
-                tempName = nameNum.ToString();
+                if(nameNum < 10)
+                {
+                    tempName = "0" + nameNum.ToString();
+                }
+                else
+                {
+                    tempName = nameNum.ToString();
+                }
                 nameNum++;
             }
         }
